@@ -27,8 +27,8 @@
   },
   "devDependencies": {
     "admiral": "0.0.4",
-    "admiral-integration-mocha": "0.0.2",
-    "admiral-target-local": "0.0.2",
+    "admiral-integration-mocha": "0.1.0",
+    "admiral-target-local": "0.1.0",
     "chai": "^3.5.0",
     "coveralls": "^2.11.15",
     "flvr": "^0.1.3",

@@ -24,14 +24,13 @@ The goal of **wd-elements** is to provide a sane and consistent environment to a
 
 ```js
 const webdriver = require('selenium-webdriver')
-const WDE = require('wd-elements')(webdriver)
+const WDE = require('wd-elements')
 
-const driver = new webdriver.Builder().forBrowser('chrome').build();
-const page = WDE.Page.create(driver)
+const driver = WDE(new webdriver.Builder().forBrowser('chrome').build())
 
 // for the most part WDElements behave like native selenium WebElements
 // the true power comes from primitives and extensibility (see advanced usage)
-page.find('#app')
+driver.find('#app')
   .then((app) => app.find('h1'))
   .then((h1) => h1.getText())
 ```
