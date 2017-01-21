@@ -137,6 +137,11 @@ describe('Finder', function () {
       assert.instanceOf(heading, WDE.El)
     })
 
+    it('Should find by string @name selector', async function () {
+      const input = await this.finder.find('@name.byName')
+      assert.instanceOf(input, WDE.El)
+    })
+
     it('Should find by `byHash`', async function () {
       const heading = await this.finder.find({ css: 'h1' })
       assert.instanceOf(heading, WDE.El)
