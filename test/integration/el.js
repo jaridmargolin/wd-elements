@@ -93,6 +93,19 @@ describe('El', function () {
   })
 
   /* ---------------------------------------------------------------------------
+   * find
+   * ------------------------------------------------------------------------ */
+
+  describe('find', function () {
+    it('Should implement shortcut methods to automatically pass el', async function () {
+      const heading = await WDE.El.create('h1')
+      const app = await heading.findClosest('#app')
+
+      assert.instanceOf(app, WDE.El)
+    })
+  })
+
+  /* ---------------------------------------------------------------------------
    * wait
    * ------------------------------------------------------------------------ */
 
