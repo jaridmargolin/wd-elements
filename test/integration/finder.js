@@ -126,6 +126,10 @@ describe('Finder', function () {
   describe('find', function () {
     before(async function () {
       this.finder = new Finder(this.driver)
+
+      this.delayedAddScript = `setTimeout(function () {
+        document.body.innerHTML += '<div id="delayed">HELLO</div>'
+      }, 1000)`
     })
 
     it('Should find by string selector', async function () {
@@ -158,6 +162,31 @@ describe('Finder', function () {
       const nthParagraph = await this.finder.findNth('p', 1)
 
       assert.equal(await nthParagraph.getText(), await paragraphs[1].getText())
+    })
+
+    it('Should retry until element is found.', async function () {
+      await this.driver.executeScript(this.delayedAddScript)
+      await this.finder.find('#delayed')
+    })
+
+    it('Should allow setting global timeout.', async function () {
+      const originalTimeout = Finder.retryTimeout
+      Finder.retryTimeout = 500
+
+      await this.driver.executeScript(this.delayedAddScript)
+      return this.finder.find('#delayed')
+        .then(__ => { throw new Error('Retry not correctly set') })
+        .catch(__ => (Finder.retryTimeout = originalTimeout))
+    })
+
+    it('Should allow setting instance timeout.', async function () {
+      const originalTimeout = this.finder.retryTimeout
+      this.finder.retryTimeout = 500
+
+      await this.driver.executeScript(this.delayedAddScript)
+      return this.finder.find('#delayed')
+        .then(__ => { throw new Error('Retry not correctly set') })
+        .catch(__ => (this.finder.retryTimeout = originalTimeout))
     })
   })
 })
