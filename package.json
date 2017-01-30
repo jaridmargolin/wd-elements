@@ -21,6 +21,7 @@
   "main": "lib/index.js",
   "dependencies": {
     "bluebird": "^3.4.7",
+    "bluebird-retry": "^0.10.1",
     "callsites": "^2.0.0",
     "require-directory": "^2.1.1",
     "selenium-webdriver": "^3.0.1"
