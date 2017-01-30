@@ -90,6 +90,14 @@ describe('El', function () {
         'text': 'Paragraph1'
       })
     })
+
+    it('Should return if the element has a specified class.', async function () {
+      const app = await WDE.El.create('#app')
+
+      assert.isTrue(await app.hasClass('multiple'))
+      assert.isTrue(await app.hasClass('classnames'))
+      assert.isFalse(await app.hasClass('fail'))
+    })
   })
 
   /* ---------------------------------------------------------------------------
