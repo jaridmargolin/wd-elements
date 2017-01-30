@@ -12,13 +12,13 @@ const path = require('path')
 const assert = require('chai').assert
 
 // lib
-const WDE = require('../../lib/index')
+const WDE = require('../../../lib/index')
 
 /* -----------------------------------------------------------------------------
  * reusable
  * -------------------------------------------------------------------------- */
 
-const appPath = path.join(__dirname, 'fixtures', 'app.html')
+const appPath = path.join(__dirname, '..', 'fixtures', 'app.html')
 const appUrl = `file://${appPath}`
 
 /* -----------------------------------------------------------------------------
