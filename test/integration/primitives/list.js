@@ -38,13 +38,18 @@ describe('List', function () {
   })
 
   it('Should only return direct descendents.', async function () {
-    const items = await this.list.findAll('@child.item')
+    const items = await this.list.findItems()
     assert.equal(items.length, 4)
   })
 
   it('Should return the first item.', async function () {
     const first = await this.list.findFirstItem()
     assert.equal(await first.getText(), 'First')
+  })
+
+  it('Should return the nth item.', async function () {
+    const nth = await this.list.findNthItem(1)
+    assert.equal(await nth.getText(), 'Second')
   })
 
   it('Should return the last item.', async function () {
