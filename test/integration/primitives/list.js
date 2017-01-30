@@ -42,6 +42,10 @@ describe('List', function () {
     assert.equal(items.length, 4)
   })
 
+  it('Should return the list length.', async function () {
+    assert.equal(await this.list.getLength(), 4)
+  })
+
   it('Should return the first item.', async function () {
     const first = await this.list.findFirstItem()
     assert.equal(await first.getText(), 'First')
@@ -55,5 +59,14 @@ describe('List', function () {
   it('Should return the last item.', async function () {
     const last = await this.list.findLastItem()
     assert.equal(await last.getText(), 'Last')
+  })
+
+  it('Should return if list length matches passed length.', async function () {
+    assert.isTrue(await this.list.isLength(4))
+    assert.isFalse(await this.list.isLength(5))
+  })
+
+  it('Should wait until the list is a specified length.', async function () {
+    await this.list.waitUntilLength(4)
   })
 })
