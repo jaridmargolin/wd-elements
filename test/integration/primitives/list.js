@@ -42,9 +42,17 @@ describe('List', function () {
     assert.equal(items.length, 4)
   })
 
+  /* ---------------------------------------------------------------------------
+   * data
+   * ------------------------------------------------------------------------ */
+
   it('Should return the list length.', async function () {
     assert.equal(await this.list.getLength(), 4)
   })
+
+  /* ---------------------------------------------------------------------------
+   * find
+   * ------------------------------------------------------------------------ */
 
   it('Should return the first item.', async function () {
     const first = await this.list.findFirstItem()
@@ -60,6 +68,31 @@ describe('List', function () {
     const last = await this.list.findLastItem()
     assert.equal(await last.getText(), 'Last')
   })
+
+  /* ---------------------------------------------------------------------------
+   * on
+   * ------------------------------------------------------------------------ */
+
+  it('Should execute method on the first item.', async function () {
+    assert.equal(await this.list.onFirstItem('getText'), 'First')
+  })
+
+  it('Should execute method on the nth item.', async function () {
+    assert.equal(await this.list.onNthItem(1, 'getText'), 'Second')
+  })
+
+  it('Should execute method on the last item.', async function () {
+    assert.equal(await this.list.onLastItem('getText'), 'Last')
+  })
+
+  it('Should execute method on all items.', async function () {
+    const expected = ['First', 'Second', 'Nested', 'Last']
+    assert.deepEqual(await this.list.onItems('getText'), expected)
+  })
+
+  /* ---------------------------------------------------------------------------
+   * utils
+   * ------------------------------------------------------------------------ */
 
   it('Should return if list length matches passed length.', async function () {
     assert.isTrue(await this.list.isLength(4))
