@@ -29,7 +29,7 @@ const appUrl = `file://${appPath}`
 describe('Finder', function () {
   this.timeout(10000)
 
-  before(async function () {
+  beforeEach(async function () {
     await this.driver.get(appUrl)
   })
 
@@ -192,6 +192,33 @@ describe('Finder', function () {
       return this.finder.find('#delayed')
         .then(__ => { throw new Error('Retry not correctly set') })
         .catch(__ => (this.finder.retryTimeout = originalTimeout))
+    })
+  })
+
+  /* ---------------------------------------------------------------------------
+   * on methods
+   * ------------------------------------------------------------------------ */
+
+  describe('on', function () {
+    before(async function () {
+      this.finder = new Finder(this.driver)
+    })
+
+    it('Should execute method on found item', async function () {
+      assert.isTrue(await this.finder.on('p', 'hasClass', 'paragraph1'))
+    })
+
+    it('Should execute method on found items', async function () {
+      const result = await this.finder.onAll('p', 'hasClass', 'paragraph1')
+      assert.deepEqual(result, [true, false])
+    })
+
+    it('Should execute method on last item', async function () {
+      assert.isTrue(await this.finder.onLast('p', 'hasClass', 'paragraph2'))
+    })
+
+    it('Should execute method on nth item', async function () {
+      assert.isTrue(await this.finder.onNth('p', 1, 'hasClass', 'paragraph2'))
     })
   })
 })
