@@ -54,7 +54,7 @@ describe('Finder', function () {
     it('Should get child by object definition', async function () {
       class MyFinder extends Finder {
         get children () {
-          return { 'heading': { by: 'h1' } }
+          return { 'heading': { css: 'h1' } }
         }
       }
 
@@ -68,7 +68,7 @@ describe('Finder', function () {
       class HeadingEl extends WDE.El {}
       class MyFinder extends Finder {
         get children () {
-          return { 'heading': { by: 'h1', Class: HeadingEl } }
+          return { 'heading': { css: 'h1', Class: HeadingEl } }
         }
       }
 
