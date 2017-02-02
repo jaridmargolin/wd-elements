@@ -221,4 +221,19 @@ describe('Finder', function () {
       assert.isTrue(await this.finder.onNth('p', 1, 'hasClass', 'paragraph2'))
     })
   })
+
+  /* ---------------------------------------------------------------------------
+   * checks
+   * ------------------------------------------------------------------------ */
+
+  describe('on', function () {
+    before(async function () {
+      this.finder = new Finder(this.driver)
+    })
+
+    it('Should return if element exists or not', async function () {
+      assert.isTrue(await this.finder.exists('#app'))
+      assert.isFalse(await this.finder.exists('.i-do-not-exist'))
+    })
+  })
 })
