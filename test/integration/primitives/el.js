@@ -91,6 +91,38 @@ describe('El', function () {
       })
     })
 
+    it('Should resolve kebab, camel, and snake case property names.', async function () {
+      class CustomParagraph extends WDE.El {
+        get properties () { return ['kebab-case', 'CamelCase', 'snake_case'] }
+        getKebabCase () { return true }
+        getCamelCase () { return true }
+        getSnakeCase () { return true }
+      }
+
+      const paragraph = await CustomParagraph.create('p')
+      assert.deepEqual(await paragraph.data(), {
+        'kebab-case': true,
+        'CamelCase': true,
+        'snake_case': true
+      })
+    })
+
+    it('Should utilze get_, is_, and has_ getter methods.', async function () {
+      class CustomParagraph extends WDE.El {
+        get properties () { return ['get', 'is', 'has'] }
+        getGet () { return true }
+        isIs () { return true }
+        hasHas () { return true }
+      }
+
+      const paragraph = await CustomParagraph.create('p')
+      assert.deepEqual(await paragraph.data(), {
+        'get': true,
+        'is': true,
+        'has': true
+      })
+    })
+
     it('Should return if the element has a specified class.', async function () {
       const app = await WDE.El.create('#app')
 
