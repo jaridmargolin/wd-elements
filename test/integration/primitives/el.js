@@ -50,6 +50,48 @@ describe('El', function () {
   })
 
   /* ---------------------------------------------------------------------------
+   * actions
+   * ------------------------------------------------------------------------ */
+
+  describe('actions', function () {
+    beforeEach(async function () {
+      this.app = await WDE.El.create('#app')
+      this.input = await this.app.find('#enabled')
+    })
+
+    it('Should focus on element', async function () {
+      await this.input.focus()
+      await this.app.find({ css: ':focus' })
+    })
+
+    it('Should blur element', async function () {
+      await this.input.focus()
+      await this.input.blur()
+
+      try {
+        await this.app.find({ css: ':focus' })
+      } catch (e) {
+        return
+      }
+
+      throw new Error('Input not blurred')
+    })
+
+    it('Should blur currently active element', async function () {
+      await this.input.focus()
+      await this.app.blurActive()
+
+      try {
+        await this.app.find({ css: ':focus' })
+      } catch (e) {
+        return
+      }
+
+      throw new Error('Input not blurred')
+    })
+  })
+
+  /* ---------------------------------------------------------------------------
    * data
    * ------------------------------------------------------------------------ */
 
