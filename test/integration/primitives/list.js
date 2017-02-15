@@ -50,6 +50,11 @@ describe('List', function () {
     assert.equal(await this.list.getLength(), 4)
   })
 
+  it('Should pluck specified property from items.', async function () {
+    assert.deepEqual(await this.list.pluck('text'), [ 'First', 'Second',
+      'Nested', 'Last' ])
+  })
+
   /* ---------------------------------------------------------------------------
    * find
    * ------------------------------------------------------------------------ */
