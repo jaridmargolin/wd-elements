@@ -50,10 +50,10 @@ describe('El', function () {
   })
 
   /* ---------------------------------------------------------------------------
-   * actions
+   * focus actions
    * ------------------------------------------------------------------------ */
 
-  describe('actions', function () {
+  describe('focus actions', function () {
     beforeEach(async function () {
       this.app = await WDE.El.create('#app')
       this.input = await this.app.find('#enabled')
@@ -88,6 +88,68 @@ describe('El', function () {
       }
 
       throw new Error('Input not blurred')
+    })
+  })
+
+  /* ---------------------------------------------------------------------------
+   * scroll actions
+   * ------------------------------------------------------------------------ */
+
+  describe('scroll actions', function () {
+    beforeEach(async function () {
+      this.outer = await WDE.El.create('#scrollable-outer')
+      this.inner = await this.outer.find('#scrollable-inner')
+    })
+
+    it('Should scroll x by delta.', async function () {
+      await this.outer.scrollXBy(50)
+      await this.outer.scrollXBy(50)
+
+      const pos = await this.outer.getScrollPos()
+      assert.equal(pos.scrollLeft, 100)
+      assert.equal(pos.scrollTop, 0)
+    })
+
+    it('Should scroll y by delta.', async function () {
+      await this.outer.scrollYBy(50)
+      await this.outer.scrollYBy(50)
+
+      const pos = await this.outer.getScrollPos()
+      assert.equal(pos.scrollLeft, 0)
+      assert.equal(pos.scrollTop, 100)
+    })
+
+    it('Should scroll x to pos.', async function () {
+      await this.outer.scrollXTo(50)
+      await this.outer.scrollXTo(50)
+
+      const pos = await this.outer.getScrollPos()
+      assert.equal(pos.scrollLeft, 50)
+      assert.equal(pos.scrollTop, 0)
+    })
+
+    it('Should scroll y to pos.', async function () {
+      await this.outer.scrollYTo(50)
+      await this.outer.scrollYTo(50)
+
+      const pos = await this.outer.getScrollPos()
+      assert.equal(pos.scrollLeft, 0)
+      assert.equal(pos.scrollTop, 50)
+    })
+
+    it('Should scroll to bottom.', async function () {
+      await this.outer.scrollToBottom()
+
+      assert.isTrue(await this.outer.isScrolledToBottom())
+      assert.isFalse(await this.outer.isScrolledToTop())
+    })
+
+    it('Should scroll to top.', async function () {
+      await this.outer.scrollToBottom()
+      await this.outer.scrollToTop()
+
+      assert.isFalse(await this.outer.isScrolledToBottom())
+      assert.isTrue(await this.outer.isScrolledToTop())
     })
   })
 
