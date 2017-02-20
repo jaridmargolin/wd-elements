@@ -12,7 +12,7 @@ const path = require('path')
 const assert = require('chai').assert
 
 // lib
-const WDE = require('../../../lib/index')
+const browser = require('../support/browser')
 
 /* -----------------------------------------------------------------------------
  * reusable
@@ -28,13 +28,17 @@ const appUrl = `file://${appPath}`
 describe('List', function () {
   this.timeout(10000)
 
-  before(function () {
-    this.returnDriver = (browser) => WDE(browser.driver)
+  before(async function () {
+    await browser.wrapBuildFn()
   })
 
   beforeEach(async function () {
-    await this.driver.get(appUrl)
-    this.list = await this.driver.find('#list')
+    await browser.driver.get(appUrl)
+    this.list = await browser.driver.find('#list')
+  })
+
+  after(async function () {
+    await browser.unwrapBuildFn()
   })
 
   it('Should only return direct descendents.', async function () {

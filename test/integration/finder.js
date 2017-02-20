@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+/* global browser */
 'use strict'
 
 /* -----------------------------------------------------------------------------
@@ -30,7 +31,7 @@ describe('Finder', function () {
   this.timeout(10000)
 
   beforeEach(async function () {
-    await this.driver.get(appUrl)
+    await browser.driver.get(appUrl)
   })
 
   /* ---------------------------------------------------------------------------
@@ -45,7 +46,7 @@ describe('Finder', function () {
         }
       }
 
-      const myFinder = new MyFinder(this.driver)
+      const myFinder = new MyFinder(browser.driver)
       const heading = await myFinder.find('@child.heading')
 
       assert.instanceOf(heading, WDE.El)
@@ -58,7 +59,7 @@ describe('Finder', function () {
         }
       }
 
-      const myFinder = new MyFinder(this.driver)
+      const myFinder = new MyFinder(browser.driver)
       const heading = await myFinder.find('@child.heading')
 
       assert.instanceOf(heading, WDE.El)
@@ -72,7 +73,7 @@ describe('Finder', function () {
         }
       }
 
-      const myFinder = new MyFinder(this.driver)
+      const myFinder = new MyFinder(browser.driver)
       const heading = await myFinder.find('@child.heading')
 
       assert.instanceOf(heading, HeadingEl)
@@ -85,7 +86,7 @@ describe('Finder', function () {
         }
       }
 
-      const myFinder = new MyFinder(this.driver)
+      const myFinder = new MyFinder(browser.driver)
       const paragraphs = await myFinder.findAll('@child.paragraph')
 
       assert.equal(paragraphs.length, 2)
@@ -105,7 +106,7 @@ describe('Finder', function () {
       }
       WDE.set('HeadingEl', HeadingEl)
 
-      const finder = await new Finder(this.driver)
+      const finder = await new Finder(browser.driver)
       const heading = await finder.find('h1')
 
       assert.instanceOf(heading, HeadingEl)
@@ -125,7 +126,7 @@ describe('Finder', function () {
 
   describe('find', function () {
     before(async function () {
-      this.finder = new Finder(this.driver)
+      this.finder = new Finder(browser.driver)
 
       this.delayedAddScript = `setTimeout(function () {
         document.body.innerHTML += '<div id="delayed">HELLO</div>'
@@ -170,7 +171,7 @@ describe('Finder', function () {
     })
 
     it('Should retry until element is found.', async function () {
-      await this.driver.executeScript(this.delayedAddScript)
+      await browser.driver.executeScript(this.delayedAddScript)
       await this.finder.find('#delayed')
     })
 
@@ -178,7 +179,7 @@ describe('Finder', function () {
       const originalTimeout = Finder.retryTimeout
       Finder.retryTimeout = 500
 
-      await this.driver.executeScript(this.delayedAddScript)
+      await browser.driver.executeScript(this.delayedAddScript)
       return this.finder.find('#delayed')
         .then(__ => { throw new Error('Retry not correctly set') })
         .catch(__ => (Finder.retryTimeout = originalTimeout))
@@ -188,7 +189,7 @@ describe('Finder', function () {
       const originalTimeout = this.finder.retryTimeout
       this.finder.retryTimeout = 500
 
-      await this.driver.executeScript(this.delayedAddScript)
+      await browser.driver.executeScript(this.delayedAddScript)
       return this.finder.find('#delayed')
         .then(__ => { throw new Error('Retry not correctly set') })
         .catch(__ => (this.finder.retryTimeout = originalTimeout))
@@ -201,7 +202,7 @@ describe('Finder', function () {
 
   describe('on', function () {
     before(async function () {
-      this.finder = new Finder(this.driver)
+      this.finder = new Finder(browser.driver)
     })
 
     it('Should execute method on found item', async function () {
@@ -228,7 +229,7 @@ describe('Finder', function () {
 
   describe('on', function () {
     before(async function () {
-      this.finder = new Finder(this.driver)
+      this.finder = new Finder(browser.driver)
     })
 
     it('Should return if element exists or not', async function () {

@@ -12,7 +12,7 @@ const path = require('path')
 const assert = require('chai').assert
 
 // lib
-const WDE = require('../../../lib/index')
+const browser = require('../support/browser')
 
 /* -----------------------------------------------------------------------------
  * reusable
@@ -28,13 +28,17 @@ const appUrl = `file://${appPath}`
 describe('Form', function () {
   this.timeout(10000)
 
-  before(function () {
-    this.returnDriver = (browser) => WDE(browser.driver)
+  before(async function () {
+    await browser.wrapBuildFn()
   })
 
   beforeEach(async function () {
-    await this.driver.get(appUrl)
-    this.form = await this.driver.find('#form')
+    await browser.driver.get(appUrl)
+    this.form = await browser.driver.find('#form')
+  })
+
+  after(async function () {
+    await browser.unwrapBuildFn()
   })
 
   it('Should fill/read fields', async function () {

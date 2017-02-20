@@ -12,6 +12,7 @@ const path = require('path')
 const assert = require('chai').assert
 
 // lib
+const browser = require('../support/browser')
 const WDE = require('../../../lib/index')
 
 /* -----------------------------------------------------------------------------
@@ -28,12 +29,16 @@ const appUrl = `file://${appPath}`
 describe('El', function () {
   this.timeout(10000)
 
-  before(function () {
-    this.returnDriver = (browser) => WDE(browser.driver)
+  before(async function () {
+    await browser.wrapBuildFn()
   })
 
   beforeEach(async function () {
-    await this.driver.get(appUrl)
+    await browser.driver.get(appUrl)
+  })
+
+  after(async function () {
+    await browser.unwrapBuildFn()
   })
 
   /* ---------------------------------------------------------------------------
@@ -45,7 +50,7 @@ describe('El', function () {
       const app = await WDE.El.create('#app')
 
       assert.instanceOf(app, WDE.El)
-      assert.equal(app.getDriver(), this.driver)
+      assert.equal(app.getDriver(), browser.driver)
     })
   })
 

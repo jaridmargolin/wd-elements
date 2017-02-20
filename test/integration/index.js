@@ -1,4 +1,5 @@
 /* eslint-env mocha */
+/* global browser */
 'use strict'
 
 /* -----------------------------------------------------------------------------
@@ -24,7 +25,7 @@ describe('WDE', function () {
   })
 
   it('Should not wrap the driver more than once', function () {
-    const driver1 = WDE(this.driver)
+    const driver1 = WDE(browser.driver)
     const driver2 = WDE(driver1)
 
     assert.equal(driver1, driver2)
